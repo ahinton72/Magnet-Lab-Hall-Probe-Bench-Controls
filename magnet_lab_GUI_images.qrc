@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>magnet_icon.jpg</file>
+    <file>UKRI_STFC_ASTEC_RGB.png</file>
+  </qresource>
+</RCC>

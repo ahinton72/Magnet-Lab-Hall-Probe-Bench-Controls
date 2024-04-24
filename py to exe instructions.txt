@@ -1,0 +1,8 @@
+In command prompt:
+
+1. Set directory path: cd C:\Users\itx75623\OneDrive - Science and Technology Facilities Council\Documents\magnet lab control\Senis 3MH6 Teslameter
+
+2. Create .exe file (need to include additional files as additional hooks:
+
+a) In command prompt run python -m auto_py_to_exe
+b) Select file to convert to .exe

@@ -1,0 +1,3 @@
+in command propmt: 
+
+pyrcc5 magnet_lab_GUI_images.qrc -o magnet_lab_GUI_images_rc.py

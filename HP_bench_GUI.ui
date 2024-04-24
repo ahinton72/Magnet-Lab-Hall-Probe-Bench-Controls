@@ -1,0 +1,2193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1111</width>
+    <height>946</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Magnet Lab Controls - Hall Probe</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../Senis 3MH6 Teslameter/magnet_lab_GUI_images.qrc">
+    <normaloff>:/newPrefix/magnet_icon.jpg</normaloff>:/newPrefix/magnet_icon.jpg</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>30</y>
+      <width>591</width>
+      <height>831</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="toolTip">
+     <string/>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="move_tab">
+     <attribute name="title">
+      <string>Movement</string>
+     </attribute>
+     <attribute name="toolTip">
+      <string>Move stages</string>
+     </attribute>
+     <widget class="QGroupBox" name="move_typeBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>181</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Select Movement Type</string>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="title">
+       <string>Movement Type</string>
+      </property>
+      <widget class="QRadioButton" name="relativeRadio">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>95</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Move Relative Distance</string>
+       </property>
+       <property name="text">
+        <string>Relative</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="globalRadio">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>70</y>
+         <width>95</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Move to Global Position</string>
+       </property>
+       <property name="text">
+        <string>Global</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QStackedWidget" name="movementStack">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>20</y>
+        <width>321</width>
+        <height>431</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Panel</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="RelativeMove">
+       <widget class="QPushButton" name="relativemoveButton">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>340</y>
+          <width>181</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>18</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Move Stage Relative Distance</string>
+        </property>
+        <property name="text">
+         <string>MOVE</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="gridLayoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>70</y>
+          <width>200</width>
+          <height>251</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="yrelativeEdit">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string>Enter distance to move in y</string>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>x = </string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>z = </string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="xrelativeEdit">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string>Enter distance to move in x</string>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>y = </string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="zrelativeEdit">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string>Enter distance to move in z</string>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_9">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="label_10">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QLabel" name="label_11">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QLabel" name="label_8">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>301</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Move Relative Distance:</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="GlobalMove">
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>231</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Move to Position:</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="gridLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>70</y>
+          <width>197</width>
+          <height>251</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>x = </string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="xglobalEdit">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string>Enter global position in x</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>y = </string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>z = </string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="zglobalEdit">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string>Enter global position in z</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="yglobalEdit">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string>Enter global position in y</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_12">
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="label_13">
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QPushButton" name="globalmoveButton">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>340</y>
+          <width>181</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>18</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Move Stage to Global Position</string>
+        </property>
+        <property name="text">
+         <string>MOVE</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="reset_axes_Button">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>490</y>
+        <width>321</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>Send reset command to all motor axes</string>
+      </property>
+      <property name="text">
+       <string>Reset Axes</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>Scan</string>
+     </attribute>
+     <attribute name="toolTip">
+      <string>Scan stages in 3D</string>
+     </attribute>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>561</width>
+        <height>781</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="1" column="0">
+        <widget class="QGroupBox" name="groupBox_15">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="title">
+          <string>y values</string>
+         </property>
+         <widget class="QWidget" name="gridLayoutWidget_17">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>50</y>
+            <width>391</width>
+            <height>106</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_17">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_49">
+             <property name="text">
+              <string>Starting y coordinate</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_50">
+             <property name="text">
+              <string>Final y coordinate</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="scan_y1Edit">
+             <property name="toolTip">
+              <string>Enter value for y1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="scan_y0Edit">
+             <property name="toolTip">
+              <string>Enter value for y0</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_51">
+             <property name="text">
+              <string>Separation between points</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="scan_dyEdit">
+             <property name="toolTip">
+              <string>Enter value for dy</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QRadioButton" name="yplaneRadio">
+          <property name="geometry">
+           <rect>
+            <x>430</x>
+            <y>80</y>
+            <width>151</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="toolTip">
+           <string>Scan at fixed y coordinate</string>
+          </property>
+          <property name="text">
+           <string>Fixed Point</string>
+          </property>
+         </widget>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QGroupBox" name="groupBox_16">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="title">
+          <string>z values</string>
+         </property>
+         <widget class="QWidget" name="gridLayoutWidget_18">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>50</y>
+            <width>391</width>
+            <height>106</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_18">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_52">
+             <property name="text">
+              <string>Starting z coordinate</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_53">
+             <property name="text">
+              <string>Final z coordinate</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="scan_z1Edit">
+             <property name="toolTip">
+              <string>Enter value for z1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="scan_z0Edit">
+             <property name="toolTip">
+              <string>Enter value for z0</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_54">
+             <property name="text">
+              <string>Separation between points</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="scan_dzEdit">
+             <property name="toolTip">
+              <string>Enter value for dz</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QRadioButton" name="zplaneRadio">
+          <property name="geometry">
+           <rect>
+            <x>430</x>
+            <y>80</y>
+            <width>151</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="toolTip">
+           <string>Scan at fixed z coordinate</string>
+          </property>
+          <property name="text">
+           <string>Fixed Point</string>
+          </property>
+         </widget>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="title">
+          <string/>
+         </property>
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>0</y>
+            <width>120</width>
+            <height>80</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Set Scan Order</string>
+          </property>
+          <widget class="QComboBox" name="scanorder_Combo">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>30</y>
+             <width>84</width>
+             <height>35</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>18</pointsize>
+            </font>
+           </property>
+           <property name="toolTip">
+            <string>Set order of axis scanning</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>z-x-y</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>z-y-x</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>x-y-z</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>x-z-y</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>y-z-x</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>y-x-z</string>
+            </property>
+           </item>
+          </widget>
+         </widget>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="geometry">
+           <rect>
+            <x>150</x>
+            <y>0</y>
+            <width>381</width>
+            <height>81</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Select File</string>
+          </property>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>30</y>
+             <width>361</width>
+             <height>35</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QLineEdit" name="filenameEdit">
+              <property name="toolTip">
+               <string>File name</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="selectfileButton">
+              <property name="toolTip">
+               <string>Select file location</string>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QRadioButton" name="on_the_fly_radioButton">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>80</y>
+            <width>241</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Scan axis one on the fly</string>
+          </property>
+          <property name="text">
+           <string>Scan axis 1 on the fly?</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="scan_speedEdit">
+          <property name="geometry">
+           <rect>
+            <x>420</x>
+            <y>80</y>
+            <width>111</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set speed of axis 1 for on-the-fly scan&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_25">
+          <property name="geometry">
+           <rect>
+            <x>270</x>
+            <y>80</y>
+            <width>141</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Scan speed (mm/s)</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="boundary_data_checkBox">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>130</y>
+            <width>291</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Scan boundary data on volume</string>
+          </property>
+          <property name="text">
+           <string>Scan Boundary Data</string>
+          </property>
+         </widget>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QGroupBox" name="groupBox_13">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="title">
+          <string>x values</string>
+         </property>
+         <widget class="QWidget" name="gridLayoutWidget_15">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>50</y>
+            <width>391</width>
+            <height>106</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_15">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_43">
+             <property name="text">
+              <string>Starting x coordinate</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_44">
+             <property name="text">
+              <string>Final x coordinate</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="scan_x1Edit">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter value for x1&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="scan_x0Edit">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter value for x0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_45">
+             <property name="text">
+              <string>Separation between points</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="scan_dxEdit">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter value for dx&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QRadioButton" name="xplaneRadio">
+          <property name="geometry">
+           <rect>
+            <x>430</x>
+            <y>80</y>
+            <width>151</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="toolTip">
+           <string>Scan at fixed x coordinate</string>
+          </property>
+          <property name="text">
+           <string>Fixed Point</string>
+          </property>
+         </widget>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="scanButton">
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Begin scan in 3D&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>SCAN</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_5">
+     <attribute name="title">
+      <string>Multipoles</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_10">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>551</width>
+        <height>291</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>18</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Circle Coordinates</string>
+      </property>
+      <widget class="QWidget" name="gridLayoutWidget_6">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>341</width>
+         <height>231</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_27">
+          <property name="text">
+           <string>x centre / mm</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="multipole_x_Centre_Edit"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="multipole_y_centre_Edit"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_29">
+          <property name="text">
+           <string>Radius / mm</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_28">
+          <property name="text">
+           <string>y centre / mm</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="multipole_radius_Edit"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_33">
+          <property name="text">
+           <string>Steps</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="multipoles_steps_Edit"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_11">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>320</y>
+        <width>551</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>18</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Z coordinates </string>
+      </property>
+      <widget class="QWidget" name="gridLayoutWidget_7">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>351</width>
+         <height>142</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_8">
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_32">
+          <property name="text">
+           <string>Step size / mm</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_31">
+          <property name="text">
+           <string>Final z / mm</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_30">
+          <property name="text">
+           <string>Starting z / mm</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="multipoles_z0_Edit"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="multipoles_z1_Edit"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="multipoles_dz_Edit"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QRadioButton" name="multipoles_z_radio">
+       <property name="geometry">
+        <rect>
+         <x>380</x>
+         <y>100</y>
+         <width>171</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Scan at fixed x coordinate</string>
+       </property>
+       <property name="text">
+        <string>Fixed Point</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_12">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>530</y>
+        <width>541</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>18</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Select File</string>
+      </property>
+      <widget class="QWidget" name="layoutWidget_3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>521</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLineEdit" name="multipoles_filenameEdit">
+          <property name="toolTip">
+           <string>File name</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="multipoles_selectfileButton">
+          <property name="toolTip">
+           <string>Select file location</string>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="multipoles_scanButton">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>690</y>
+        <width>549</width>
+        <height>57</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>24</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Begin scan in 3D&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>SCAN</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Probe Settings</string>
+     </attribute>
+     <attribute name="toolTip">
+      <string>Set Hall probe settings</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_19">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>551</width>
+        <height>521</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Set Hall Probe Settings</string>
+      </property>
+      <widget class="QWidget" name="gridLayoutWidget_19">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>60</y>
+         <width>437</width>
+         <height>301</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_20">
+        <item row="0" column="1">
+         <widget class="QComboBox" name="rangeCombo">
+          <property name="toolTip">
+           <string>Select measurement range</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_58">
+          <property name="text">
+           <string>Sampling Rate (samples per second)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_55">
+          <property name="text">
+           <string>Measurement Range</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="samplerateCombo">
+          <property name="toolTip">
+           <string>Select sample rate</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_56">
+          <property name="text">
+           <string>Samples per average</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="averagesEdit">
+          <property name="toolTip">
+           <string>Set number of samples per field average</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QPushButton" name="probesettingsButton">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>400</y>
+         <width>371</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Apply changes to probe settings</string>
+       </property>
+       <property name="text">
+        <string>Apply Changes</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Motor Settings</string>
+     </attribute>
+     <attribute name="toolTip">
+      <string>Set motor controller settings</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_20">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>741</width>
+        <height>701</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Set Motor Controller Settings</string>
+      </property>
+      <widget class="QGroupBox" name="groupBox_29">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>30</y>
+         <width>461</width>
+         <height>181</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="title">
+        <string>x axis</string>
+       </property>
+       <widget class="QWidget" name="gridLayoutWidget_31">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>30</y>
+          <width>411</width>
+          <height>106</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_31">
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_87">
+           <property name="text">
+            <string>Upper Soft Limit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="xlowerEdit">
+           <property name="toolTip">
+            <string>Enter x lower limit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="xspeedEdit">
+           <property name="toolTip">
+            <string>Enter x slew speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="xupperEdit">
+           <property name="toolTip">
+            <string>Enter x upper limit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_86">
+           <property name="text">
+            <string>Lower Soft Limit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_85">
+           <property name="text">
+            <string>Slew speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_57">
+           <property name="text">
+            <string>mm/s</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="label_59">
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QLabel" name="label_60">
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QGroupBox" name="groupBox_30">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>220</y>
+         <width>461</width>
+         <height>171</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="title">
+        <string>y axis</string>
+       </property>
+       <widget class="QWidget" name="gridLayoutWidget_32">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>30</y>
+          <width>411</width>
+          <height>106</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_32">
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_88">
+           <property name="text">
+            <string>Upper Soft Limit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="ylowerEdit">
+           <property name="toolTip">
+            <string>Enter y lower limit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="yspeedEdit">
+           <property name="toolTip">
+            <string>Enter y slew speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="yupperEdit">
+           <property name="toolTip">
+            <string>Enter y upper limit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_89">
+           <property name="text">
+            <string>Lower Soft Limit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_90">
+           <property name="text">
+            <string>Slew speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_61">
+           <property name="text">
+            <string>mm/s</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="label_62">
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QLabel" name="label_63">
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QGroupBox" name="groupBox_31">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>400</y>
+         <width>461</width>
+         <height>181</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="title">
+        <string>z axis</string>
+       </property>
+       <widget class="QWidget" name="gridLayoutWidget_33">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>30</y>
+          <width>411</width>
+          <height>106</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_33">
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_91">
+           <property name="text">
+            <string>Upper Soft Limit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="zlowerEdit">
+           <property name="toolTip">
+            <string>Enter z lower limit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="zspeedEdit">
+           <property name="toolTip">
+            <string>Enter z slew speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="zupperEdit">
+           <property name="toolTip">
+            <string>Enter z upper limit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_92">
+           <property name="text">
+            <string>Lower Soft Limit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_93">
+           <property name="text">
+            <string>Slew speed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_64">
+           <property name="text">
+            <string>mm/s</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="label_65">
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QLabel" name="label_66">
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QPushButton" name="motorsettingsButton">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>600</y>
+         <width>431</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Apply changes to motor settings</string>
+       </property>
+       <property name="text">
+        <string>Apply Changes</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="fieldsBox">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>250</y>
+      <width>281</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="title">
+     <string>Current Probe Fields</string>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>37</y>
+       <width>251</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLabel" name="BxLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Bx =</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="ByLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>By =</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="BzLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Bz =</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="tempLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+          <kerning>false</kerning>
+         </font>
+        </property>
+        <property name="text">
+         <string>Temperature = </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="positionBox">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>40</y>
+      <width>391</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="title">
+     <string>Current Probe Position</string>
+    </property>
+    <widget class="QWidget" name="gridLayoutWidget_4">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>351</width>
+       <height>119</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="2" column="0">
+       <widget class="QLabel" name="zposLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>z =</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="yposLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>y =</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="xposLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>x =</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>480</y>
+      <width>261</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="title">
+     <string>Current Probe Settings</string>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>231</width>
+       <height>88</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QLabel" name="rangeLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Measurement range = </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="rateLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Sample Rate (Hz) = </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="averageLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Samples per average = </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="motorsettingsGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>610</y>
+      <width>481</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="title">
+     <string>Current Motor Controller Settings</string>
+    </property>
+    <widget class="QWidget" name="gridLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>19</x>
+       <y>19</y>
+       <width>461</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_20">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Lower Soft Limit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_16">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>x</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_17">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>y</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_19">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Slew speed (mm/s)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="label_18">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>z</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_15">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Axis</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_21">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Upper Soft Limit</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="xspeedLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="yspeedLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLabel" name="zspeedLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="xlowerLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="ylowerLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLabel" name="zlowerLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="xupperLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="yupperLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLabel" name="zupperLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget_5">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>810</y>
+      <width>233</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_6">
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_23">
+       <property name="text">
+        <string>Magnet Lab Controls - Hall Probe v3.0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="ContactLabel">
+       <property name="text">
+        <string>Contact: Alex Hinton</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_22">
+       <property name="text">
+        <string>alex.hinton@stfc.ac.uk</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="label_24">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>820</y>
+      <width>141</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="../Senis 3MH6 Teslameter/magnet_lab_GUI_images.qrc">:/newPrefix/UKRI_STFC_ASTEC_RGB.png</pixmap>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1111</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>xrelativeEdit</tabstop>
+  <tabstop>yrelativeEdit</tabstop>
+  <tabstop>zrelativeEdit</tabstop>
+  <tabstop>relativemoveButton</tabstop>
+  <tabstop>relativeRadio</tabstop>
+  <tabstop>globalRadio</tabstop>
+  <tabstop>xglobalEdit</tabstop>
+  <tabstop>yglobalEdit</tabstop>
+  <tabstop>zglobalEdit</tabstop>
+  <tabstop>globalmoveButton</tabstop>
+  <tabstop>scan_x0Edit</tabstop>
+  <tabstop>scan_x1Edit</tabstop>
+  <tabstop>scan_dxEdit</tabstop>
+  <tabstop>xplaneRadio</tabstop>
+  <tabstop>scan_y0Edit</tabstop>
+  <tabstop>scan_y1Edit</tabstop>
+  <tabstop>scan_dyEdit</tabstop>
+  <tabstop>yplaneRadio</tabstop>
+  <tabstop>scan_z0Edit</tabstop>
+  <tabstop>scan_z1Edit</tabstop>
+  <tabstop>scan_dzEdit</tabstop>
+  <tabstop>zplaneRadio</tabstop>
+  <tabstop>scanorder_Combo</tabstop>
+  <tabstop>on_the_fly_radioButton</tabstop>
+  <tabstop>filenameEdit</tabstop>
+  <tabstop>selectfileButton</tabstop>
+  <tabstop>scanButton</tabstop>
+  <tabstop>multipole_x_Centre_Edit</tabstop>
+  <tabstop>multipole_y_centre_Edit</tabstop>
+  <tabstop>multipole_radius_Edit</tabstop>
+  <tabstop>multipoles_steps_Edit</tabstop>
+  <tabstop>multipoles_z0_Edit</tabstop>
+  <tabstop>multipoles_z1_Edit</tabstop>
+  <tabstop>multipoles_dz_Edit</tabstop>
+  <tabstop>multipoles_z_radio</tabstop>
+  <tabstop>multipoles_filenameEdit</tabstop>
+  <tabstop>multipoles_selectfileButton</tabstop>
+  <tabstop>multipoles_scanButton</tabstop>
+  <tabstop>rangeCombo</tabstop>
+  <tabstop>samplerateCombo</tabstop>
+  <tabstop>averagesEdit</tabstop>
+  <tabstop>probesettingsButton</tabstop>
+  <tabstop>xspeedEdit</tabstop>
+  <tabstop>xlowerEdit</tabstop>
+  <tabstop>xupperEdit</tabstop>
+  <tabstop>yspeedEdit</tabstop>
+  <tabstop>ylowerEdit</tabstop>
+  <tabstop>yupperEdit</tabstop>
+  <tabstop>zspeedEdit</tabstop>
+  <tabstop>zlowerEdit</tabstop>
+  <tabstop>zupperEdit</tabstop>
+  <tabstop>motorsettingsButton</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../Senis 3MH6 Teslameter/magnet_lab_GUI_images.qrc"/>
+  <include location="magnet_lab_GUI_images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

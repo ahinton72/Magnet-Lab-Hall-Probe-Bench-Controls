@@ -1,0 +1,7 @@
+In command prompt:
+
+pyuic5 mydesign.ui -o mydesign.py
+
+pyuic5 teslameter_select_GUI.ui -o teslameter_select_GUI.py
+
+pyuic5 HP_bench_GUI.ui -o HP_bench_GUI.py
