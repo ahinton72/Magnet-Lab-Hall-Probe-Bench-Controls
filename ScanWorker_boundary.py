@@ -175,9 +175,12 @@ class ScanWorker_boundary(QRunnable):
 
                 while self.distance < 100:
                     for point in all_points:  # for each coordinate to be scanned
-                        self.xa.move(point[0], wait=True)  # move x axis to x coordinate
-                        self.ya.move(point[1], wait=True)  # move y axis to y coordinate
-                        self.za.move(point[2], wait=True)  # move z axis to z coordinate
+                        try:
+                            self.xa.move(point[0], wait=True)  # move x axis to x coordinate
+                            self.ya.move(point[1], wait=True)  # move y axis to y coordinate
+                            self.za.move(point[2], wait=True)  # move z axis to z coordinate
+                        except ValueError as e:  # if value error due to incorrect response, keep going
+                            print('ValueError, Keep going, ', e)
 
                         time.sleep(0.5)  # wait for motor controllers to settle
 

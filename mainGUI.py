@@ -60,7 +60,7 @@ class mywindow(QtWidgets.QMainWindow):
         self.HP = HP
         self.HP.open()  # open connection to probe
 
-        self.ui.label_23.setText('Magnet Lab Controls - Hall Probe v7.1')
+        self.ui.label_23.setText('Magnet Lab Controls - Hall Probe v7.2')
 
         self.ui.tabWidget.tabBarClicked.connect(self.sleepGUI)  # sleep GUI
 
@@ -221,38 +221,45 @@ class mywindow(QtWidgets.QMainWindow):
         time.sleep(dt)
         self.setEnabled(True)
 
+    def create_progress(self, label):
+        """Create a progress bar for a function with a given label"""
+        # Set window text, stop button text, minimum value, maximum value
+        self.progress = QtWidgets.QProgressDialog(label, "STOP", 0, 100, self)
+        self.progress.setWindowTitle('Please wait...')
+        self.progress.setAutoClose(True)  # Automatically close dialog once progress completed
+        self.progress.setWindowModality(
+            QtCore.Qt.WindowModal)  # Make window modal so processes can take place in background
+        self.progress.canceled.connect(self.progress.close)  # Close dialog when close button pressed
+        self.progress.show()  # Show progress dialog
+
     def track_progess(self, value):
-        """Create progress bar to track progress of actions"""
-        if self.progress.wasCanceled():  # if cancel button has been pressed
-            print('Movement cancelled!!!')
-            self.worker.isRun = False  # stop current worker from running further
+        """Update progress bar to track progress of actions"""
+        if self.progress.wasCanceled():  # if cancel button has been pressed on progress bar GUI
+            self.worker.isRun = False  # stop current worker from running further by changing Flag value
         else:  # if progress not cancelled
             self.progress.setValue(value - 1)  # set progress bar value
             if value == 99:
-                self.progress.setValue(100)
+                self.progress.setValue(100)  # if thread completed, set progress bar value to 100 to close it
 
     def check_float(self, values, edits):
         """Function to check values entered into line edits are float type"""
-        print('Checking if float')
-        for i in range(len(edits)):  # for all values in edits list
+        for i in range(len(edits)):  # for all values in list of line edits
             edits[i].setStyleSheet('background-color: rgb(255, 255, 255);')  # reset line edit colour to white
         try:
             for i in range(len(values)):  # for all values entered
-                values[i] = float(values[i])  # check values are numbers
-        except ValueError:  # if any entered values are not numbers
-            print('Invalid Numbers Entered')
+                values[i] = float(values[i])  # check values can be converted to floats
+        except ValueError:  # if any entered values are not floats
             warning = QtWidgets.QMessageBox.warning(self, 'Invalid Numbers',
                                                     "Please type valid numbers into the boxes",
                                                     QtWidgets.QMessageBox.Ok)  # Create warning message box to user
         else:  # if no value errors
-            print('No errors')
             return values
         finally:  # after error loop completed, needed because loop stops after encountering first error
             for i in range(len(edits)):  # for all line edits
                 try:
                     values[i] = float(values[i])  # check values are numbers
                 except ValueError:  # if value is not a number
-                    edits[i].setStyleSheet('background-color: rgb(255, 0, 0);')  # reset line edit colour to red
+                    edits[i].setStyleSheet('background-color: rgb(255, 0, 0);')  # set line edit colour to red
 
     def movement_radio(self):
         """Function to Select correct page of stacked widget for selected movement type"""
@@ -263,9 +270,7 @@ class mywindow(QtWidgets.QMainWindow):
 
     def fixed_x_radio(self):
         """Function to block out line edits if x scan at fixed coordinate"""
-        print('Radio toggled')
         if self.ui.xplaneRadio.isChecked():
-            print('Button checked')
             self.ui.scan_x1Edit.setEnabled(False)
             self.ui.scan_dxEdit.setEnabled(False)
         else:
@@ -291,7 +296,7 @@ class mywindow(QtWidgets.QMainWindow):
             self.ui.scan_dzEdit.setEnabled(True)
 
     def fixed_multipoles_z_radio(self):
-        """Function to block out line edits if z scan at fixed coordinate"""
+        """Function to block out line edits if multipole scan at fixed z coordinate"""
         if self.ui.multipoles_z_radio.isChecked():
             self.ui.multipoles_z1_Edit.setEnabled(False)
             self.ui.multipoles_dz_Edit.setEnabled(False)
@@ -308,7 +313,7 @@ class mywindow(QtWidgets.QMainWindow):
 
     def SoftLimitWarning(self, value):
         """Raise warning message if movement values outside soft limits"""
-        print('Raised on exception, create warning')
+        print('Raised an exception, create warning')
         self.progress.close()  # close progress bar
         # print('value = ', value)
         if value[0] == 'MissedTrigger':
@@ -328,7 +333,7 @@ class mywindow(QtWidgets.QMainWindow):
                                                     QtWidgets.QMessageBox.Ok)  # Create warning message box to user
 
     def thread_complete(self):
-        """Function to be executed when a thread is completed"""
+        """Function to be executed when a QRunnable thread is completed"""
         print('Thread complete')
         print('thread complete activation state = ', self.isActiveWindow())
         print('current worker = ', self.worker)
@@ -336,7 +341,7 @@ class mywindow(QtWidgets.QMainWindow):
         self.worker = None  # reset worker class to none - does this help prevent GUI crashing between scans?
         print('now current worker = ', self.worker)
         self.sleepGUI()
-        try:  # restart timers if been paused
+        try:  # restart timers if they been paused for running the thread
             self.timer.start()
             self.timer2.start()
             print('timers restarted')
@@ -355,12 +360,10 @@ class mywindow(QtWidgets.QMainWindow):
         self.timer2.stop()
         time.sleep(0.1)
         count0 = self.pool.activeThreadCount()  # number of active threads when program termination started
-        print('Number of threads to close = ', count0)
         self.pool.clear()  # clear thread pool
         time.sleep(0.2)
-        while self.pool.activeThreadCount() > 0:
+        while self.pool.activeThreadCount() > 0:  # wait until thread count is 0
             count_i = self.pool.activeThreadCount()  # current number of active threads
-        print('new count = ', self.pool.activeThreadCount())
 
     def UpdateFields(self, fields):
         """Update fields labels on GUI"""
@@ -374,7 +377,7 @@ class mywindow(QtWidgets.QMainWindow):
         worker = FieldsWorker(self.HP, self.averages)  # connect to FieldsWorker object
         worker.setAutoDelete(True)  # make worker auto-deletable so can be cleared
         worker.signals.result.connect(self.UpdateFields)
-        self.pool.start(worker)
+        self.pool.start(worker)  # start the FieldsWorker object
 
     def UpdatePositions(self, positions):
         """Update position labels on GUI"""
@@ -394,7 +397,7 @@ class mywindow(QtWidgets.QMainWindow):
     def relative_move_click(self):
         """Function to be executed when relative movement button is clicked"""
         print('Selected Relative Movement')
-        self.pause_timers()
+        self.pause_timers()  # pause timers for updating GUI whilst function is executed
 
         x = (self.ui.xrelativeEdit.text())  # x value is current value in line Edit
         y = (self.ui.yrelativeEdit.text())  # y value is current value in line Edit
@@ -423,34 +426,23 @@ class mywindow(QtWidgets.QMainWindow):
 
             print('created')
             # worker.signals.result.connect(self.UpdateMotorSettings)
-            self.worker.setAutoDelete(True)
-            self.worker.signals.result.connect(self.UpdatePositions)
+            self.worker.setAutoDelete(True)  # automatically delete QRunnable object after execution
+            self.worker.signals.result.connect(self.UpdatePositions)  # function to execute with result signal
             print('connect progress')
-            self.worker.signals.progress.connect(self.track_progess)
+            self.worker.signals.progress.connect(self.track_progess)  # function to execute with progress signal
             print('progress connected')
-            self.worker.signals.error.connect(self.SoftLimitWarning)
+            self.worker.signals.error.connect(self.SoftLimitWarning)  # function to execute if exception raised
 
             self.worker.signals.finished.connect(self.thread_complete)
 
             # Create progress bar
-            # Set window text, stop button text, minimum value, maximum value
-            print('create progress bar')
-            self.progress = QtWidgets.QProgressDialog("Moving Relative Distance", "STOP", 0, 100, self)
-            self.progress.setWindowTitle('Please wait...')
-            self.progress.setAutoClose(True)  # Automatically close dialog once progress completed
-            self.progress.setWindowModality(
-                QtCore.Qt.WindowModal)  # Make window modal so processes can take place in background
-            self.progress.canceled.connect(self.progress.close)  # Close dialog when close button pressed
-            self.progress.show()  # Show progress dialog
+            self.create_progress("Moving Relative Distance")
 
             self.pool.start(self.worker, priority=5)  # start pool after initialising progress bar
 
-            print('worker now =', self.worker)
-
     def global_move_click(self):
         """Function to be executed when global movement button is clicked"""
-        print('Selected Global Movement')
-        self.pause_timers()
+        self.pause_timers()  # pause timers for updating GUI to avoid interfering with movement
 
         x1 = self.ui.xglobalEdit.text()  # x value is current value in line Edit
         y1 = self.ui.yglobalEdit.text()  # y value is current value in line Edit
@@ -466,11 +458,10 @@ class mywindow(QtWidgets.QMainWindow):
             x1 = values[0]
             y1 = values[1]
             z1 = values[2]
-            print('Moving to position (', str(x1) + ',', str(y1) + ',', str(z1) + ')')  # print new position
 
             # Create worker thread to handle moving motor and tracking progress
             print('create worker')
-            self.worker = GlobalMoveWorker(mc, x1, y1, z1)
+            self.worker = GlobalMoveWorker(mc, x1, y1, z1)  # connect to GlobalMoveWorker QRunnable Object
             print('created')
             # worker.signals.result.connect(self.UpdateMotorSettings)
             self.worker.setAutoDelete(True)
@@ -482,114 +473,72 @@ class mywindow(QtWidgets.QMainWindow):
             self.worker.signals.finished.connect(self.thread_complete)
 
             # Create progress bar
-            # Set window text, stop button text, minimum value, maximum value
-            self.progress = QtWidgets.QProgressDialog("Moving To Position", "STOP", 0, 100, self)
-            self.progress.setWindowTitle('Please wait...')
-            self.progress.setAutoClose(True)  # Automatically close dialog once progress completed
-            self.progress.setWindowModality(
-                QtCore.Qt.WindowModal)  # Make window modal so processes can take place in background
-            self.worker.signals.result.connect(self.UpdatePositions)
-            self.progress.canceled.connect(self.progress.close)  # Close dialog when close button pressed
-            self.progress.show()  # Show progress dialog
+            self.create_progress("Moving to Position")
 
             self.pool.start(self.worker, priority=5)  # start pool after initialising progress bar
 
     def reset_axes_click(self):
         """Function to be executed when reset axes button is clicked"""
-        print('Selected reset axes')
-        self.pause_timers()
+        self.pause_timers()  # pause timers for updating GUI so that the function can be executed
 
-        # Create worker thread to handle moving motor and tracking progress
-        print('create worker')
-        self.worker = ResetAxesWorker(mc)
-        print('created')
-        # worker.signals.result.connect(self.UpdateMotorSettings)
+        # Create worker thread to handle sending reset command to motor axes
+        self.worker = ResetAxesWorker(mc)  # connect to QRunnable object
         self.worker.setAutoDelete(True)
-        print('connect progress')
         self.worker.signals.progress.connect(self.track_progess)
-        print('progress connected')
         self.worker.signals.error.connect(self.SoftLimitWarning)
-        # self.worker.signals.finished.connect(self.worker.delete)
         self.worker.signals.finished.connect(self.thread_complete)
 
         # Create progress bar
-        # Set window text, stop button text, minimum value, maximum value
-        self.progress = QtWidgets.QProgressDialog("Resetting Motor Controller Axes", "STOP", 0, 100, self)
-        self.progress.setWindowTitle('Please wait...')
-        self.progress.setAutoClose(True)  # Automatically close dialog once progress completed
-        self.progress.setWindowModality(
-            QtCore.Qt.WindowModal)  # Make window modal so processes can take place in background
-        self.worker.signals.result.connect(self.UpdatePositions)
-        self.progress.canceled.connect(self.progress.close)  # Close dialog when close button pressed
-        self.progress.show()  # Show progress dialog
+        self.create_progress("Resetting Motor Controller Axes")
 
         self.pool.start(self.worker, priority=5)  # start pool after initialising progress bar
 
     def select_file_click(self):
         """Function to select file name and location to save scan data"""
-        print('Select a file')
         self.sleepGUI()
-        print('select file activation state = ', self.isActiveWindow())
 
-        self.pause_timers()
+        self.pause_timers()  # pause timers for updating GUI so not to interfere with this function
 
-        print('create filedialog')
+        # Create FileDialog widget for selecting file name and location
         filedialog = QtWidgets.QFileDialog(self)
-        print('ok here 1')
         filedialog.setDefaultSuffix("csv")
         filedialog.setNameFilter("Text Files (*.csv);;All files (*.*)")
         filedialog.setAcceptMode(QtWidgets.QFileDialog.AcceptSave)
         filedialog.DontUseNativeDialog
-        print('ok here 2')
         time.sleep(0.5)  # try adding short pause before executing file??
-        print('current threads = ', self.pool.activeThreadCount())
         selected = filedialog.exec_()
-        print('ok here 3')
         if selected:
             filename = filedialog.selectedFiles()[0]
-            print('filename = ', filename)
             self.ui.filenameEdit.setText(filename)
             self.thread_complete()
         else:
             return
 
     def multipoles_select_file_click(self):
-        """Function to select file name and location to save theta scan data"""
-        print('Select a file')
+        """Function to select file name and location to save multipole scan data"""
         self.sleepGUI()
-        print('select file activation state = ', self.isActiveWindow())
 
-        self.pause_timers()
+        self.pause_timers()  # pause timers for updating GUI so not to interfere with this function
 
-        print('create filedialog')
+        # Create FileDialog widget for selecting file name and location
         filedialog = QtWidgets.QFileDialog(self)
-        print('ok here 1')
         filedialog.setDefaultSuffix("csv")
         filedialog.setNameFilter("Text Files (*.csv);;All files (*.*)")
         filedialog.setAcceptMode(QtWidgets.QFileDialog.AcceptSave)
         filedialog.DontUseNativeDialog
-        print('ok here 2')
         time.sleep(0.5)  # try adding short pause before executing file??
-        print('current threads = ', self.pool.activeThreadCount())
         selected = filedialog.exec_()
-        print('ok here 3')
         if selected:
             filename = filedialog.selectedFiles()[0]
-            print('filename = ', filename)
             self.ui.multipoles_filenameEdit.setText(filename)
             self.thread_complete()
         else:
             return
 
-        '''if filename[1] == 'Text Files (*.csv)' and filename[0][-4:] != '.csv':
-            filename = filename[0] + '.csv'
-        else:
-            filename = filename[0]
-        self.ui.filenameEdit.setText(filename)'''
-
     def ScanUpdateGUI(self, data):
-        """Update positions and fields in GUI during scan"""
-        print('update the GUI')
+        """Update positions and fields in GUI during scan using data emitted from QRunnable Object"""
+
+        # Update the position and field screen on the GUI
         self.ui.xposLabel.setText('x = ' + data[
             0] + ' mm')  # Reset x position label; note Syntax; variable is string, use of "+" to concatenate
         self.ui.yposLabel.setText('y = ' + data[1] + ' mm')
@@ -611,9 +560,8 @@ class mywindow(QtWidgets.QMainWindow):
 
     def scan_click(self):
         """Function to be executed when scan button pressed"""
-        print('Scan function selected')
 
-        self.pause_timers()
+        self.pause_timers()  # Pause timers for updating GUI so not to interfere with running this function
 
         # Retrieve values stored in line edits
         x0 = self.ui.scan_x0Edit.text()  # Get x0 value
@@ -650,25 +598,12 @@ class mywindow(QtWidgets.QMainWindow):
 
         check_values = self.check_float(values, edits)  # check if entered values were floats
 
-        if check_values is not None:  # if values are floats, execute command
-            print('No errors')
-
-            x0 = values[0]
-            x1 = values[1]
-            dx = values[2]
-            y0 = values[3]
-            y1 = values[4]
-            dy = values[5]
-            z0 = values[6]
-            z1 = values[7]
-            dz = values[8]
+        if check_values is not None:  # if values are floats, execute scan
 
             order = self.ui.scanorder_Combo.currentIndex()  # get axis order from combo box
             filename = self.ui.filenameEdit.text()  # get filename from filename edit
             on_the_fly = self.ui.on_the_fly_radioButton.isChecked()  # boolean to represent on-the-fly scanning choice
-            print('On the fly scan selected ? ', on_the_fly)
             boundary_data = self.ui.boundary_data_checkBox.isChecked()  # boolean to represent boundary data scan choice
-            print('Boundary data selected? ', boundary_data)
 
             # Check if file can be written to
             try:
@@ -676,7 +611,6 @@ class mywindow(QtWidgets.QMainWindow):
                 if exists(filename):
                     my_file = open(filename, "r+")
             except:
-                print('cant write to file')
                 warning = QtWidgets.QMessageBox.warning(self, 'Cannot Access File',
                                                         "Please check file is not open or choose different file",
                                                         QtWidgets.QMessageBox.Ok)  # Create warning message box to user
@@ -684,12 +618,10 @@ class mywindow(QtWidgets.QMainWindow):
             else:  # if file can be written to, execute code
 
                 # Create worker thread to handle moving motor and tracking progress
-                print('create worker')
                 if boundary_data:
-                    print('Scanning boundary only')
                     self.worker = ScanWorker_boundary(self.HP, mc, x0, x1, dx, y0, y1, dy, z0, z1, dz, order,
                                                           filename, self.averages)
-                else:
+                else: # can this be an elif block?
                     if on_the_fly:
                         self.worker = ScanWorker_onthefly(self.HP, mc, x0, x1, dx, y0, y1, dy, z0, z1, dz, order, filename,
                                                           self.averages, scan_speed)
@@ -699,22 +631,15 @@ class mywindow(QtWidgets.QMainWindow):
                 print('created')
                 # worker.signals.result.connect(self.UpdateMotorSettings)
                 self.worker.setAutoDelete(True)
-                self.worker.signals.result.connect(self.ScanUpdateGUI)
+                self.worker.signals.result.connect(self.ScanUpdateGUI)  # update GUI at each scan step
                 print('connect progress')
                 self.worker.signals.progress.connect(self.track_progess)
                 print('progress connected')
-                self.worker.signals.error.connect(self.SoftLimitWarning)
+                self.worker.signals.error.connect(self.SoftLimitWarning)  # function to call if error raised
                 self.worker.signals.finished.connect(self.thread_complete)
 
                 # Create progress bar
-                # Set window text, stop button text, minimum value, maximum value
-                self.progress = QtWidgets.QProgressDialog("Performing Scan", "STOP", 0, 100, self)
-                self.progress.setWindowTitle('Please wait...')
-                self.progress.setAutoClose(True)  # Automatically close dialog once progress completed
-                self.progress.setWindowModality(
-                    QtCore.Qt.WindowModal)  # Make window modal so processes can take place in background
-                self.progress.canceled.connect(self.progress.close)  # Close dialog when close button pressed
-                self.progress.show()  # Show progress dialog
+                self.create_progress("Performing Scan")
 
                 # Create graph object to display fields during scan
                 self.graphWidget = pg.PlotWidget()
@@ -811,14 +736,7 @@ class mywindow(QtWidgets.QMainWindow):
                 self.worker.signals.finished.connect(self.thread_complete)
 
                 # Create progress bar
-                # Set window text, stop button text, minimum value, maximum value
-                self.progress = QtWidgets.QProgressDialog("Performing Scan", "STOP", 0, 100, self)
-                self.progress.setWindowTitle('Please wait...')
-                self.progress.setAutoClose(True)  # Automatically close dialog once progress completed
-                self.progress.setWindowModality(
-                    QtCore.Qt.WindowModal)  # Make window modal so processes can take place in background
-                self.progress.canceled.connect(self.progress.close)  # Close dialog when close button pressed
-                self.progress.show()  # Show progress dialog
+                self.create_progress("Performing Scan")
 
                 # Create graph object to display fields during scan
                 self.graphWidget = pg.PlotWidget()
@@ -860,7 +778,6 @@ class mywindow(QtWidgets.QMainWindow):
 
     def probe_settings_click(self):
         """Function to apply changes in probe settings"""
-        print('Changing probe settings')
         self.pause_timers()
         # Set measurement range
         if self.HP.type() == '3MH6':
@@ -874,8 +791,6 @@ class mywindow(QtWidgets.QMainWindow):
             new_range = self.ui.rangeCombo.currentIndex()
         else:
             print('Invalid Hall probe type')
-
-        print('got to here!')
 
         # Set sample rate
         index = self.ui.samplerateCombo.currentIndex()
@@ -901,14 +816,7 @@ class mywindow(QtWidgets.QMainWindow):
         worker.signals.progress.connect(self.track_progess)
 
         # Create progress bar
-        # Set window text, stop button text, minimum value, maximum value
-        self.progress = QtWidgets.QProgressDialog("Updating Probe Settings", "STOP", 0, 100, self)
-        self.progress.setWindowTitle('Please wait...')
-        self.progress.setAutoClose(True)  # Automatically close dialog once progress completed
-        self.progress.setWindowModality(
-            QtCore.Qt.WindowModal)  # Make window modal so processes can take place in background
-        self.progress.canceled.connect(self.progress.close)  # Close dialog when close button pressed
-        self.progress.show()  # Show progress dialog
+        self.create_progress("Updating Probe Settings")
 
         self.pool.start(worker, priority=5)  # start worker
 
@@ -932,39 +840,39 @@ class mywindow(QtWidgets.QMainWindow):
         self.pool.start(worker)
 
     def motor_settings_click(self):
-        """Function to be executed when motor settings updated"""
-        print('Update motor settings')
-        self.pause_timers()
+        """Function to be executed when motor settings are updated"""
+        self.pause_timers()  # pause timers for updating GUI whilst function is executed
 
-        x_speed = self.ui.xspeedEdit.text()  # get x speed
-        y_speed = self.ui.yspeedEdit.text()  # get y speed
-        z_speed = self.ui.zspeedEdit.text()  # get z speed
+        x_speed = self.ui.xspeedEdit.text()  # get x axis speed from GUI
+        y_speed = self.ui.yspeedEdit.text()  # get y axis speed from GUI
+        z_speed = self.ui.zspeedEdit.text()  # get z axis speed from GUI
 
-        values = [x_speed, y_speed, z_speed]
-        edits = [self.ui.xspeedEdit, self.ui.yspeedEdit, self.ui.zspeedEdit]
+        values = [x_speed, y_speed, z_speed]  # list of values to check if valid numbers
+        edits = [self.ui.xspeedEdit, self.ui.yspeedEdit, self.ui.zspeedEdit]  # list of GUI line edits
 
-        x_lower = self.ui.xlowerEdit.text()  # get x lower limit
-        x_upper = self.ui.xupperEdit.text()  # get x upper limit
+        x_lower = self.ui.xlowerEdit.text()  # get x lower soft limit from GUI
+        x_upper = self.ui.xupperEdit.text()  # get x upper soft limit from GUI
         values.append(x_lower)
         values.append(x_upper)
         edits.append(self.ui.xlowerEdit)
         edits.append(self.ui.xupperEdit)
 
-        y_lower = self.ui.ylowerEdit.text()  # get y lower limit
-        y_upper = self.ui.yupperEdit.text()  # get y upper limit
+        y_lower = self.ui.ylowerEdit.text()  # get y lower soft limit from GUI
+        y_upper = self.ui.yupperEdit.text()  # get y upper soft limit from GUI
         values.append(y_lower)
         values.append(y_upper)
         edits.append(self.ui.ylowerEdit)
         edits.append(self.ui.yupperEdit)
 
-        z_lower = self.ui.zlowerEdit.text()  # get x lower limit
-        z_upper = self.ui.zupperEdit.text()  # get x upper limit
+        z_lower = self.ui.zlowerEdit.text()  # get z lower soft limit from GUI
+        z_upper = self.ui.zupperEdit.text()  # get z upper soft limit from GUI
         values.append(z_lower)
         values.append(z_upper)
         edits.append(self.ui.zlowerEdit)
         edits.append(self.ui.zupperEdit)
 
-        check_values = self.check_float(values, edits)
+        check_values = self.check_float(values, edits)  # call function to check if user has entered valid values
+
         if check_values is not None:
             print('No errors')
             # Check speeds are not greater than maximum
@@ -993,14 +901,7 @@ class mywindow(QtWidgets.QMainWindow):
                 worker.signals.progress.connect(self.track_progess)
 
                 # Create progress bar
-                # Set window text, stop button text, minimum value, maximum value
-                self.progress = QtWidgets.QProgressDialog("Updating Motor Settings", "STOP", 0, 100, self)
-                self.progress.setWindowTitle('Please wait...')
-                self.progress.setAutoClose(True)  # Automatically close dialog once progress completed
-                self.progress.setWindowModality(
-                    QtCore.Qt.WindowModal)  # Make window modal so processes can take place in background
-                self.progress.canceled.connect(self.progress.close)  # Close dialog when close button pressed
-                self.progress.show()  # Show progress dialog
+                self.create_progress("Updating Motor Settings")
 
                 self.pool.start(worker, priority=5)  # start worker
 
@@ -1031,21 +932,18 @@ class mywindow(QtWidgets.QMainWindow):
 
     def closeEvent(self, event):
         """Function to check that user wants to exit program when close button pressed"""
-        print('Close button pressed')
         self.sleepGUI()
+        # Raise message box to check user wants to quit application
         choice = QtWidgets.QMessageBox.question(self, 'Magnet Lab Controls',
                                                 "Do you want to exit the program?",
                                                 QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
 
         if choice == QtWidgets.QMessageBox.Yes:
-
-            print(datetime.datetime.now())
             self.timer.stop()  # stop timers to recurring threads
             self.timer2.stop()
             time.sleep(0.1)
 
             count0 = self.pool.activeThreadCount()  # number of active threads when program termination started
-            print('Number of threads to close = ', count0)
 
             self.pool.clear()  # clear thread pool
             time.sleep(0.2)
@@ -1065,20 +963,13 @@ class mywindow(QtWidgets.QMainWindow):
                 progress = int(100 * closed_threads / count0)
                 self.track_progess(progress - 1)
 
-            print('new count = ', self.pool.activeThreadCount())
-
-            self.pool.waitForDone()
-
-            print('final count = ', self.pool.activeThreadCount())
+            self.pool.waitForDone()  # wait for all active threads to be closed
 
             self.HP.close()  # close serial port connection with tesla-meter
             mc.close()  # close serial connection with motor controller
 
-            print('Closing down...')
-            print(datetime.datetime.now())
-            sys.exit()
+            sys.exit()  # close the app
         else:
-            print('Do not quit')
             event.ignore()
 
 
@@ -1100,15 +991,13 @@ class PickProbeWindow(QtWidgets.QMainWindow):
                            teslameter_blank()]  # list of possible Teslameters
 
         index = self.ui.teslameter_comboBox.currentIndex()
-        print('index = ', index)
         HP = teslameter_list[index]
 
-        try:
+        try: # launch main app with selected Teslameter connected
             self.w = mywindow(HP)
             self.w.show()
             self.hide()
-        except:
-            print('Uh oh, probe is not connected')
+        except:  # raise exception if selected Teslameter not connected to PC
             self.ui.selection_warning_label.setText('Please check Teslameter is connected')
             self.ui.selection_warning_label.setStyleSheet("background-color: red")
 
