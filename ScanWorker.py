@@ -1,3 +1,5 @@
+import numpy as np
+import csv
 import PyQt5
 from PyQt5.QtCore import QObject, QThread, pyqtSignal, QRunnable, pyqtSlot, QThreadPool, QMutex
 import traceback
@@ -5,12 +7,12 @@ import sys
 import time
 import datetime
 from WorkerSignals import WorkerSignals
-mutex = QMutex()
-import numpy as np
-import csv
+
+mutex = QMutex()  # imported so that Teslameter and motor controller classes only accessed by this function
+
 
 class ScanWorker(QRunnable):
-    """Runnable class to scan over 3D coordinates and record fields"""
+    """Runnable class to scan over 3D coordinate volume and record fields in csv folder"""
 
     def __init__(self, HP, mc, x0, x1, dx, y0, y1, dy, z0, z1, dz, order, filename, averages):
         super(ScanWorker, self).__init__()
@@ -18,11 +20,11 @@ class ScanWorker(QRunnable):
         self.signals = WorkerSignals()
         self.isRun = True  # isRun flag = true; do not stop action
 
-        self.HP = HP
+        self.HP = HP  # set Teslameter class
         self.mc = mc
-        self.xa = mc.axis['x']
-        self.ya = mc.axis['y']
-        self.za = mc.axis['z']
+        self.xa = mc.axis['x']  # define motor controller x axis
+        self.ya = mc.axis['y']  # define motor controller y axis
+        self.za = mc.axis['z']  # define motor controller z axis
         self.x0 = float(x0)  # start x
         self.x1 = float(x1)  # end x
         self.dx = float(dx)  # x interval
@@ -39,9 +41,8 @@ class ScanWorker(QRunnable):
         print('scan worker initialised ', datetime.datetime.now())
 
     def run(self):
-        """Function to move Hall probe relative distance and track progress"""
-        try:
-            print('scan worker running ', datetime.datetime.now())
+        """Function to move Hall probe over 3D volume and track progress"""
+        try:  # check if entered measurement volume is within motor controller soft limits
             x_lims = self.xa.getLimits()
             y_lims = self.ya.getLimits()
             z_lims = self.za.getLimits()
@@ -51,18 +52,15 @@ class ScanWorker(QRunnable):
             y_upper = (y_lims[1])
             z_lower = (z_lims[0])
             z_upper = (z_lims[1])
-            print('limits found ', datetime.datetime.now())
-            # Check movement is in soft limit range and raise exception if not
+
+            # raise exception if volume outside of soft limits
             if self.x0 < x_lower or self.x1 > x_upper:
-                print('oh no outside soft limits')
                 raise Exception
 
             if self.y0 < y_lower or self.y1 > y_upper:
-                print('oh no outside soft limits')
                 raise Exception
 
-            if self.z1 < z_lower or self.z1 > z_upper:
-                print('oh no outside soft limits')
+            if self.z0 < z_lower or self.z1 > z_upper:
                 raise Exception
 
         except:
@@ -134,7 +132,7 @@ class ScanWorker(QRunnable):
                                 except ValueError as e:
                                     print('ValueError, Keep going, ', e)
 
-                                time.sleep(0.1) # wait for motor controllers to settle
+                                time.sleep(0.1)  # wait for motor controllers to settle
 
                                 print('read the positions ', datetime.datetime.now())
                                 # Read motor controller positions
@@ -152,7 +150,9 @@ class ScanWorker(QRunnable):
 
                                 # Write positions measurements to csv file
                                 writer.writerow(
-                                    [str(datetime.datetime.now()), "{:.3f}".format(x), "{:.3f}".format(y), "{:.3f}".format(z), fields[0], fields[1], fields[2], fields[3], fields[4], fields[5],
+                                    [str(datetime.datetime.now()), "{:.3f}".format(x), "{:.3f}".format(y),
+                                     "{:.3f}".format(z), fields[0], fields[1], fields[2], fields[3], fields[4],
+                                     fields[5],
                                      fields[6], fields[7]])
                                 print('Position = ', x, y, z)
                                 print('Fields = ', fields[0], fields[1], fields[2])
@@ -162,15 +162,16 @@ class ScanWorker(QRunnable):
                                 bz = "{:.3f}".format(fields[2])
                                 temp = "{:.3f}".format(fields[6])
 
-                                self.signals.result.emit(["{:.3f}".format(x), "{:.3f}".format(y), "{:.3f}".format(z), bx, by, bz,
-                                                          temp])  # emit positions and fields to update GUI
+                                self.signals.result.emit(
+                                    ["{:.3f}".format(x), "{:.3f}".format(y), "{:.3f}".format(z), bx, by, bz,
+                                     temp])  # emit positions and fields to update GUI
 
                                 print('positions and fields emitted ', datetime.datetime.now())
 
                                 count += 1
                                 self.distance = int(
                                     100 * (count / total_count))  # increase dummy variable to the nearest integer value
-                                self.signals.progress.emit(self.distance-1)
+                                self.signals.progress.emit(self.distance - 1)
                                 time.sleep(0.1)
 
                                 if not self.isRun:  # check if STOP button pressed
@@ -181,7 +182,8 @@ class ScanWorker(QRunnable):
                                     self.za.stop()
                                     break  # break out of loop
                             else:
-                                positions[0] = np.flip(positions[0])  # reverse order of axis 1 to reduce total scan time
+                                positions[0] = np.flip(
+                                    positions[0])  # reverse order of axis 1 to reduce total scan time
                                 continue
                             break  # break out of v values loop if stop button pressed
                         else:
