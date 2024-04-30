@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1111</width>
-    <height>946</height>
+    <width>1107</width>
+    <height>937</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
       <x>0</x>
       <y>30</y>
       <width>591</width>
-      <height>831</height>
+      <height>861</height>
      </rect>
     </property>
     <property name="font">
@@ -472,10 +472,10 @@
         <x>20</x>
         <y>20</y>
         <width>561</width>
-        <height>781</height>
+        <height>801</height>
        </rect>
       </property>
-      <layout class="QGridLayout" name="gridLayout_5">
+      <layout class="QGridLayout" name="gridLayout_5" rowstretch="1,1,1,2,0">
        <item row="1" column="0">
         <widget class="QGroupBox" name="groupBox_15">
          <property name="font">
@@ -490,7 +490,7 @@
           <property name="geometry">
            <rect>
             <x>20</x>
-            <y>50</y>
+            <y>30</y>
             <width>391</width>
             <height>106</height>
            </rect>
@@ -544,7 +544,7 @@
           <property name="geometry">
            <rect>
             <x>430</x>
-            <y>80</y>
+            <y>60</y>
             <width>151</width>
             <height>41</height>
            </rect>
@@ -572,7 +572,7 @@
           <property name="geometry">
            <rect>
             <x>20</x>
-            <y>50</y>
+            <y>30</y>
             <width>391</width>
             <height>106</height>
            </rect>
@@ -626,7 +626,7 @@
           <property name="geometry">
            <rect>
             <x>430</x>
-            <y>80</y>
+            <y>60</y>
             <width>151</width>
             <height>41</height>
            </rect>
@@ -821,6 +821,40 @@
            <string>Scan Boundary Data</string>
           </property>
          </widget>
+         <widget class="QLineEdit" name="random_sample_Edit">
+          <property name="geometry">
+           <rect>
+            <x>270</x>
+            <y>170</y>
+            <width>191</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="toolTip">
+           <string>Number of random points to sample within measurement volume</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="random_points_checkBox">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>170</y>
+            <width>241</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Sample random points within one step size of measurement volume</string>
+          </property>
+          <property name="text">
+           <string>Sample Random Points</string>
+          </property>
+         </widget>
         </widget>
        </item>
        <item row="0" column="0">
@@ -837,7 +871,7 @@
           <property name="geometry">
            <rect>
             <x>20</x>
-            <y>50</y>
+            <y>30</y>
             <width>391</width>
             <height>106</height>
            </rect>
@@ -891,7 +925,7 @@
           <property name="geometry">
            <rect>
             <x>430</x>
-            <y>80</y>
+            <y>60</y>
             <width>151</width>
             <height>41</height>
            </rect>
@@ -1770,6 +1804,7 @@
        <widget class="QLabel" name="rangeLabel">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1784,6 +1819,7 @@
        <widget class="QLabel" name="rateLabel">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1798,6 +1834,7 @@
        <widget class="QLabel" name="averageLabel">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1845,6 +1882,7 @@
        <widget class="QLabel" name="label_20">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1859,6 +1897,7 @@
        <widget class="QLabel" name="label_16">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1873,6 +1912,7 @@
        <widget class="QLabel" name="label_17">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1887,6 +1927,7 @@
        <widget class="QLabel" name="label_19">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1901,6 +1942,7 @@
        <widget class="QLabel" name="label_18">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1915,6 +1957,7 @@
        <widget class="QLabel" name="label_15">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1929,6 +1972,7 @@
        <widget class="QLabel" name="label_21">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1943,6 +1987,7 @@
        <widget class="QLabel" name="xspeedLabel">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1957,6 +2002,7 @@
        <widget class="QLabel" name="yspeedLabel">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1971,6 +2017,7 @@
        <widget class="QLabel" name="zspeedLabel">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1985,6 +2032,7 @@
        <widget class="QLabel" name="xlowerLabel">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -1999,6 +2047,7 @@
        <widget class="QLabel" name="ylowerLabel">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -2013,6 +2062,7 @@
        <widget class="QLabel" name="zlowerLabel">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -2027,6 +2077,7 @@
        <widget class="QLabel" name="xupperLabel">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -2041,6 +2092,7 @@
        <widget class="QLabel" name="yupperLabel">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -2055,6 +2107,7 @@
        <widget class="QLabel" name="zupperLabel">
         <property name="font">
          <font>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
           <underline>false</underline>
@@ -2123,8 +2176,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1111</width>
-     <height>26</height>
+     <width>1107</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>

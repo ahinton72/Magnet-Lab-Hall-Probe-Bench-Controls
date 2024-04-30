@@ -32,6 +32,7 @@ from ScanWorker import ScanWorker
 from ScanWorker_pointbypoint import ScanWorker_pointbypoint
 from ScanWorker_onthefly import ScanWorker_onthefly
 from ScanWorker_boundary import ScanWorker_boundary
+from ScanWorker_random_sample import ScanWorker_random_sample
 from MultipoleScanWorker import MultipoleScanWorker
 from ProbeSettingsWorker import ProbeSettingsWorker
 from setProbeSettingsWorker import setProbeSettingsWorker
@@ -60,7 +61,7 @@ class mywindow(QtWidgets.QMainWindow):
         self.HP = HP
         self.HP.open()  # open connection to probe
 
-        self.ui.label_23.setText('Magnet Lab Controls - Hall Probe v7.2')
+        self.ui.label_23.setText('Magnet Lab Controls - Hall Probe v7.3')
 
         self.ui.tabWidget.tabBarClicked.connect(self.sleepGUI)  # sleep GUI
 
@@ -100,6 +101,7 @@ class mywindow(QtWidgets.QMainWindow):
 
         self.ui.on_the_fly_radioButton.toggled.connect(self.onthefly_radio)
         # self.ui.boundary_data_radioButton.toggled.connect(self.sleepGUI)
+        self.ui.random_points_checkBox.toggled.connect(self.random_points_check)
 
         # Connect Push Buttons on Movement Tab to functions to execute movement
         self.ui.relativemoveButton.clicked.connect(
@@ -175,8 +177,10 @@ class mywindow(QtWidgets.QMainWindow):
         self.ui.zspeedEdit.setText(vz0)  # set line edit to current z speed
         self.ui.zspeedLabel.setText(vz0)
 
+        # Initialise un-enabled line edits on scan page
         self.ui.scan_speedEdit.setText(vz0)
         self.ui.scan_speedEdit.setEnabled(False)
+        self.ui.random_sample_Edit.setEnabled(False)
 
         # Read starting soft limits
         x_limits = xa.getLimits()
@@ -310,6 +314,13 @@ class mywindow(QtWidgets.QMainWindow):
             self.ui.scan_speedEdit.setEnabled(True)
         else:
             self.ui.scan_speedEdit.setEnabled(False)
+
+    def random_points_check(self):
+        """Function to block out line edits if random points check button not checked"""
+        if self.ui.random_points_checkBox.isChecked():
+            self.ui.random_sample_Edit.setEnabled(True)
+        else:
+            self.ui.random_sample_Edit.setEnabled(False)
 
     def SoftLimitWarning(self, value):
         """Raise warning message if movement values outside soft limits"""
@@ -595,6 +606,10 @@ class mywindow(QtWidgets.QMainWindow):
             scan_speed = self.ui.scan_speedEdit.text()
             edits.append(self.ui.scan_speedEdit)
             values.append(scan_speed)
+        elif self.ui.random_points_checkBox.isChecked():  # if random points selected, check number of points is float
+            number_points = self.ui.random_sample_Edit.text()
+            edits.append(self.ui.random_sample_Edit)
+            values.append(number_points)
 
         check_values = self.check_float(values, edits)  # check if entered values were floats
 
@@ -604,6 +619,7 @@ class mywindow(QtWidgets.QMainWindow):
             filename = self.ui.filenameEdit.text()  # get filename from filename edit
             on_the_fly = self.ui.on_the_fly_radioButton.isChecked()  # boolean to represent on-the-fly scanning choice
             boundary_data = self.ui.boundary_data_checkBox.isChecked()  # boolean to represent boundary data scan choice
+            random_points = self.ui.random_points_checkBox.isChecked()  # boolean to represent random sample points choice
 
             # Check if file can be written to
             try:
@@ -621,6 +637,9 @@ class mywindow(QtWidgets.QMainWindow):
                 if boundary_data:
                     self.worker = ScanWorker_boundary(self.HP, mc, x0, x1, dx, y0, y1, dy, z0, z1, dz, order,
                                                           filename, self.averages)
+                elif random_points:
+                    self.worker = ScanWorker_random_sample(self.HP, mc, x0, x1, dx, y0, y1, dy, z0, z1, dz, order,
+                                                          filename, self.averages, number_points)
                 else: # can this be an elif block?
                     if on_the_fly:
                         self.worker = ScanWorker_onthefly(self.HP, mc, x0, x1, dx, y0, y1, dy, z0, z1, dz, order, filename,
